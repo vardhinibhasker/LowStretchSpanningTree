@@ -12,43 +12,6 @@ import timeit
 import quotient
 import numpy as np
 
-def edge_len(G, e):
-    weight = G[e[0]][e[1]]["weight"]
-    return 1/(weight)
-
-def path_len(G, path):
-    return sum([edge_len(G, edge) for edge in path])
-
-def small_test():
-    G = nx.Graph()   # or DiGraph, MultiGraph, MultiDiGraph, etc
-    G.add_weighted_edges_from([(0, 1, 3.0), (1, 2, 7.5), (1, 3, 4.0)])
-    return G
-
-
-def weighted_rand_reg(max_weight, d, n):
-    weights = [1/x for x in range(1, max_weight)]
-    G = nx.random_regular_graph(d, n)
-    for u,v in G.edges:
-        G[u][v]["weight"] = random.choice(weights)
-    return G
-
-def weighted_er_graph(max_weight, n):
-    weights = [1/x for x in range(1, max_weight)]
-    connected = False
-    while not(connected):
-        G = nx.erdos_renyi_graph(n, 0.5)
-        if nx.is_connected(G): connected=True
-    for u,v in G.edges:
-        G[u][v]["weight"] = random.choice(weights)
-    return G
-
-def weighted_wheel(max_weight, n):
-    weights = [1/x for x in range(1, max_weight)]
-    G=nx.wheel_graph(n)
-    for u,v in G.edges:
-        G[u][v]["weight"] = random.choice(weights)
-    return G
-
 def graph_copy(G):
     H = nx.Graph()
     H.add_nodes_from(list(G.nodes))
@@ -56,7 +19,6 @@ def graph_copy(G):
         H.add_edge(u,v)
         H[u][v]["weight"] = G[u][v]["weight"]
     return H
-
 
 def get_ball(distances, radius):
     ball = []
